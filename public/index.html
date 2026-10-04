@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DS FLOW Owner Panel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- LOGIN -->
+  <section id="loginPage" class="login-wrap">
+    <div class="login-card">
+      <div class="brand">DS <span>FLOW</span></div>
+
+      <h1>Owner Login</h1>
+      <p>DS FLOW Control Panel</p>
+
+      <label>Email</label>
+      <input id="loginEmail" type="email" placeholder="admin@flowwultra.online">
+
+      <label>Password</label>
+      <input id="loginPassword" type="password" placeholder="Admin password">
+
+      <button id="loginBtn" class="primary full">LOGIN</button>
+
+      <div id="loginMessage" class="msg"></div>
+    </div>
+  </section>
+
+
+  <!-- ADMIN PANEL -->
+  <section id="adminPage" class="hidden">
+
+    <header class="topbar">
+      <div>
+        <div class="brand brand-top">DS <span>FLOW</span></div>
+        <div class="sub">Owner Control Panel</div>
+      </div>
+
+      <div class="top-actions">
+        <span id="apiStatus" class="api-status">Checking API...</span>
+        <button id="logoutBtn" class="danger">Logout</button>
+      </div>
+    </header>
+
+
+    <main class="container">
+
+      <!-- STATS -->
+      <div class="stats">
+
+        <div class="stat">
+          <span>Total Users</span>
+          <strong id="totalUsers">0</strong>
+        </div>
+
+        <div class="stat">
+          <span>Active</span>
+          <strong id="activeUsers">0</strong>
+        </div>
+
+        <div class="stat">
+          <span>Blocked</span>
+          <strong id="blockedUsers">0</strong>
+        </div>
+
+        <div class="stat">
+          <span>Expired</span>
+          <strong id="expiredUsers">0</strong>
+        </div>
+
+      </div>
+
+
+      <!-- CREATE USER -->
+      <div class="panel">
+
+        <div class="panel-head">
+          <div>
+            <h2>Create User</h2>
+            <p>Create a new DS FLOW subscription.</p>
+          </div>
+        </div>
+
+        <div class="form-grid">
+
+          <input id="newEmail"
+                 type="email"
+                 placeholder="User email">
+
+          <input id="newPassword"
+                 type="password"
+                 placeholder="User password">
+
+          <input id="newExpiry"
+                 type="datetime-local">
+
+          <input id="newDevices"
+                 type="number"
+                 min="1"
+                 value="1"
+                 placeholder="Max devices">
+
+        </div>
+
+
+        <label class="section-label">Server Access</label>
+
+        <div class="all-server">
+          <label>
+            <input id="allServers" type="checkbox">
+            Allow all servers 1-7
+          </label>
+        </div>
+
+        <div class="server-checks">
+
+          <label><input type="checkbox" class="serverBox" value="1"> Server 1</label>
+          <label><input type="checkbox" class="serverBox" value="2"> Server 2</label>
+          <label><input type="checkbox" class="serverBox" value="3"> Server 3</label>
+          <label><input type="checkbox" class="serverBox" value="4"> Server 4</label>
+          <label><input type="checkbox" class="serverBox" value="5"> Server 5</label>
+          <label><input type="checkbox" class="serverBox" value="6"> Server 6</label>
+          <label><input type="checkbox" class="serverBox" value="7"> Server 7</label>
+
+        </div>
+
+        <button id="createUserBtn" class="primary">
+          Create User
+        </button>
+
+        <div id="createMessage" class="msg"></div>
+
+      </div>
+
+
+      <!-- USERS -->
+      <div class="panel">
+
+        <div class="panel-head">
+
+          <div>
+            <h2>Users</h2>
+            <p>Manage DS FLOW subscriptions.</p>
+          </div>
+
+          <div class="head-tools">
+            <input id="searchBox"
+                   class="search"
+                   placeholder="Search users...">
+
+            <button id="refreshBtn" class="ghost">
+              ↻
+            </button>
+          </div>
+
+        </div>
+
+
+        <div class="table-wrap">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Expiry</th>
+                <th>Devices</th>
+                <th>Servers</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+
+            <tbody id="usersTable">
+              <tr>
+                <td colspan="7">Loading...</td>
+              </tr>
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+
+      <!-- LOGS -->
+      <div class="panel">
+
+        <div class="panel-head">
+
+          <div>
+            <h2>Audit Logs</h2>
+            <p>Recent owner activity.</p>
+          </div>
+
+          <button id="logsBtn" class="ghost">
+            Refresh
+          </button>
+
+        </div>
+
+        <div class="table-wrap">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Actor</th>
+                <th>Action</th>
+                <th>Details</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+
+            <tbody id="logsTable">
+              <tr>
+                <td colspan="5">No logs loaded.</td>
+              </tr>
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </section>
+
+
+  <!-- EDIT MODAL -->
+  <div id="editModal" class="modal hidden">
+
+    <div class="modal-card">
+
+      <div class="modal-head">
+        <div>
+          <h3>Edit User</h3>
+          <p id="editUserEmail"></p>
+        </div>
+
+        <button id="closeModal" class="close">×</button>
+      </div>
+
+
+      <div class="form-grid">
+
+        <input id="editExpiry"
+               type="datetime-local"
+               placeholder="Expiry">
+
+        <input id="editDevices"
+               type="number"
+               min="1"
+               placeholder="Max devices">
+
+        <select id="editStatus">
+          <option value="active">Active</option>
+          <option value="blocked">Blocked</option>
+        </select>
+
+      </div>
+
+
+      <label class="section-label">
+        Server Access
+      </label>
+
+      <div class="server-checks">
+
+        <label><input type="checkbox" class="editServerBox" value="1"> Server 1</label>
+        <label><input type="checkbox" class="editServerBox" value="2"> Server 2</label>
+        <label><input type="checkbox" class="editServerBox" value="3"> Server 3</label>
+        <label><input type="checkbox" class="editServerBox" value="4"> Server 4</label>
+        <label><input type="checkbox" class="editServerBox" value="5"> Server 5</label>
+        <label><input type="checkbox" class="editServerBox" value="6"> Server 6</label>
+        <label><input type="checkbox" class="editServerBox" value="7"> Server 7</label>
+
+      </div>
+
+
+      <div class="modal-actions">
+
+        <button id="saveEditBtn" class="primary wide">
+          Save Changes
+        </button>
+
+        <button id="cancelEditBtn" class="ghost wide">
+          Cancel
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="admin.js"></script>
+
+</body>
+</html>
